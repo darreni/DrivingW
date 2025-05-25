@@ -1,0 +1,19 @@
+---
+title: "About"
+author: "Darren Irwin"
+---
+
+About myself:
+
+I am a Professor of Zoology at the University of British Columbia, where I have the great fortune to work with a wonderful group of students. To learn more about our research, go to: <https://www.zoology.ubc.ca/~irwin/irwinlab/> 
+
+
+About this website:
+
+The scripts, data, and figures shown in this website were used as the basis for the research article listed below, which should be cited as the source of information from this website:
+
+Irwin, D. 2025. The driving W hypothesis for low within-population mitochondrial DNA diversity and between-population mitochondrial capture. BioRxiv.
+
+This whole website was generated using Quarto, which allows embedding of runnable Julia code.
+
+To learn more about Quarto websites visit <https://quarto.org/docs/websites>.

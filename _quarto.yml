@@ -1,0 +1,19 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "DrivingW"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - about.qmd
+  page-footer: "Copyright 2025, Darren Irwin" 
+
+format:
+  html:
+    theme: lumen
+    css: styles.css
+    toc: true
+    link-external-newwindow: true
