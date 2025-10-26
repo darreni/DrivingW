@@ -81,10 +81,16 @@ boringAutosome1 = Chrom("1", 1.0, 0.0, 0.0)
 drivingAutosome1 = Chrom("1", driveStrength, 0.0, 0.0)
 driveSuppressorAutosome1 = Chrom("1", 1.0, 0.0, 0.5) # autosome causing partial suppression of drive (half suppression when homozygous)
 driveCancellerAutosome1 = Chrom("1", 1.0, 0.0, 1.0)  # when homozygous, completely suppresses drive
+# specify some chromosome types with stronger drive
 driveStrengthStrong = 3.0 # sets this as the stronger driving strength for some sims
 drivingWstrong = Chrom("W", driveStrengthStrong, 0.0, 0.0)
+drivingZstrong = Chrom("Z", driveStrengthStrong, 0.0, 0.0)
+drivingAutosome1strong = Chrom("1", driveStrengthStrong, 0.0, 0.0)
+# specify some chromosome types with weaker drive
 driveStrengthWeak = 1.1 # sets this as the weaker driving strength for some sims
 drivingWweak = Chrom("W", driveStrengthWeak, 0.0, 0.0)
+drivingZweak = Chrom("Z", driveStrengthWeak, 0.0, 0.0)
+drivingAutosome1weak = Chrom("1", driveStrengthWeak, 0.0, 0.0)
 ```
 
 In the above, "boring" means non-driving and non-suppressing chromosomes.
@@ -94,12 +100,16 @@ Store some of these kinds of chromosomes in a vector, for easy reference later:
 ```{julia}
 chromKinds = [boringZ, 
 			drivingZ,
+			drivingZstrong,
+			drivingZweak,
 			boringW,
 			drivingW,
 			drivingWstrong,
 			drivingWweak,
 			boringAutosome1,
-			drivingAutosome1]
+			drivingAutosome1,
+			drivingAutosome1strong,
+			drivingAutosome1weak]
 ```
 
 #### Make a `struct` for storing info about an individual
@@ -132,18 +142,40 @@ femaleDriveWstrong = Indiv(drivingWstrong, boringZ, boringAutosome1, boringAutos
 femaleDriveWweak = Indiv(drivingWweak, boringZ, boringAutosome1, boringAutosome1)
 femaleDriveZ = Indiv(boringW, drivingZ, boringAutosome1, boringAutosome1)
 femaleDriveWZ = Indiv(drivingW, drivingZ, boringAutosome1, boringAutosome1)
+femaleDriveZstrong = Indiv(boringW, drivingZstrong, boringAutosome1, boringAutosome1)
+femaleDriveZweak = Indiv(boringW, drivingZweak, boringAutosome1, boringAutosome1)
+femaleDriveWstrongZstrong = Indiv(drivingWstrong, drivingZstrong, boringAutosome1, boringAutosome1)
+femaleDriveWweakZweak = Indiv(drivingWweak, drivingZweak, boringAutosome1, boringAutosome1)
 femaleFirstDriveA = Indiv(boringW, boringZ, drivingAutosome1, boringAutosome1)
+femaleFirstDriveAstrong = Indiv(boringW, boringZ, drivingAutosome1strong, boringAutosome1)
+femaleFirstDriveAweak = Indiv(boringW, boringZ, drivingAutosome1weak, boringAutosome1)
 femaleSecondDriveA = Indiv(boringW, boringZ, boringAutosome1, drivingAutosome1)
+femaleSecondDriveAstrong = Indiv(boringW, boringZ, boringAutosome1, drivingAutosome1strong)
+femaleSecondDriveAweak = Indiv(boringW, boringZ, boringAutosome1, drivingAutosome1weak)
 femaleTwoDriveA = Indiv(boringW, boringZ, drivingAutosome1, drivingAutosome1)
+femaleTwoDriveAstrong = Indiv(boringW, boringZ, drivingAutosome1strong, drivingAutosome1strong)
+femaleTwoDriveAweak = Indiv(boringW, boringZ, drivingAutosome1weak, drivingAutosome1weak)
 femaleTwoDriveSuppressorA = Indiv(boringW, boringZ, driveSuppressorAutosome1, driveSuppressorAutosome1)
 femaleTwoDriveCancellerA = Indiv(boringW, boringZ, driveCancellerAutosome1, driveCancellerAutosome1)
 maleBoring = Indiv(boringZ, boringZ, boringAutosome1, boringAutosome1)
 maleFirstDriveZ = Indiv(drivingZ, boringZ, boringAutosome1, boringAutosome1)
+maleFirstDriveZstrong = Indiv(drivingZstrong, boringZ, boringAutosome1, boringAutosome1)
+maleFirstDriveZweak = Indiv(drivingZweak, boringZ, boringAutosome1, boringAutosome1)
 maleSecondDriveZ = Indiv(boringZ, drivingZ, boringAutosome1, boringAutosome1)
+maleSecondDriveZstrong = Indiv(boringZ, drivingZstrong, boringAutosome1, boringAutosome1)
+maleSecondDriveZweak = Indiv(boringZ, drivingZweak, boringAutosome1, boringAutosome1)
 maleTwoDriveZ = Indiv(drivingZ, drivingZ, boringAutosome1, boringAutosome1)
+maleTwoDriveZstrong = Indiv(drivingZstrong, drivingZstrong, boringAutosome1, boringAutosome1)
+maleTwoDriveZweak = Indiv(drivingZweak, drivingZweak, boringAutosome1, boringAutosome1)
 maleFirstDriveA = Indiv(boringZ, boringZ, drivingAutosome1, boringAutosome1)
+maleFirstDriveAstrong = Indiv(boringZ, boringZ, drivingAutosome1strong, boringAutosome1)
+maleFirstDriveAweak = Indiv(boringZ, boringZ, drivingAutosome1weak, boringAutosome1)
 maleSecondDriveA = Indiv(boringZ, boringZ, boringAutosome1, drivingAutosome1)
+maleSecondDriveAstrong = Indiv(boringZ, boringZ, boringAutosome1, drivingAutosome1strong)
+maleSecondDriveAweak = Indiv(boringZ, boringZ, boringAutosome1, drivingAutosome1weak)
 maleTwoDriveA = Indiv(boringZ, boringZ, drivingAutosome1, drivingAutosome1)
+maleTwoDriveAstrong = Indiv(boringZ, boringZ, drivingAutosome1strong, drivingAutosome1strong)
+maleTwoDriveAweak = Indiv(boringZ, boringZ, drivingAutosome1weak, drivingAutosome1weak)
 maleTwoDriveSuppressorA = Indiv(boringZ, boringZ, driveSuppressorAutosome1, driveSuppressorAutosome1)
 maleTwoDriveCancellerA = Indiv(boringW, boringZ, driveCancellerAutosome1, driveCancellerAutosome1)
 end
@@ -260,6 +292,17 @@ pop1BMales = vcat(fill(maleBoring, pop1BSizeMale))
 pop1B = Population(pop1BFemales, pop1BMales)
 ```
 
+**pop1C** has 5% driving W (of the strong variety):
+
+```{julia}
+pop1CsetPropDrivingWstrong = 0.05
+pop1CSizeFemale = 10_000
+pop1CSizeMale = 10_000
+pop1CFemales = vcat(fill(femaleDriveWstrong, Int(round(pop1CsetPropDrivingWstrong * pop1CSizeFemale))), fill(femaleBoring, Int(round((1-pop1CsetPropDrivingWstrong) * pop1CSizeFemale))))
+pop1CMales = vcat(fill(maleBoring, pop1CSizeMale))
+pop1C = Population(pop1CFemales, pop1CMales)
+```
+
 **pop2** has 5% driving Z. Here we set the proportions of males with different kinds of Z by assuming Hardy-Weinberg equilibrium:
 
 ```{julia}
@@ -277,6 +320,44 @@ pop2Males = vcat(fill(maleTwoDriveZ, pop2numMaleTwoDriveZ),
                 fill(maleSecondDriveZ, pop2numMaleSecondDriveZ),
                 fill(maleBoring, pop2numMaleBoring))
 pop2 = Population(pop2Females, pop2Males)
+```
+
+**pop2B** has 5% driving Z of the weak variety. Here we set the proportions of males with different kinds of Z by assuming Hardy-Weinberg equilibrium:
+
+```{julia}
+pop2BsetPropDrivingZweak = 0.05
+pop2BSizeFemale = 10_000
+pop2BSizeMale = 10_000
+pop2BFemales = vcat(fill(femaleDriveZweak, Int(round(pop2BsetPropDrivingZweak * pop2BSizeFemale))), 
+                fill(femaleBoring, Int(round((1-pop2BsetPropDrivingZweak) * pop2BSizeMale))))
+pop2BnumMaleTwoDriveZweak = Int(round(pop2BsetPropDrivingZweak^2 * pop2BSizeMale))
+pop2BnumMaleFirstDriveZweak = Int(round(pop2BsetPropDrivingZweak * (1-pop2BsetPropDrivingZweak) * pop2BSizeMale))
+pop2BnumMaleSecondDriveZweak = Int(round((1-pop2BsetPropDrivingZweak) * pop2BsetPropDrivingZweak * pop2BSizeMale))
+pop2BnumMaleBoring = Int(round((1-pop2BsetPropDrivingZweak)^2 * pop2BSizeMale))
+pop2BMales = vcat(fill(maleTwoDriveZweak, pop2BnumMaleTwoDriveZweak),
+                fill(maleFirstDriveZweak, pop2BnumMaleFirstDriveZweak),
+                fill(maleSecondDriveZweak, pop2BnumMaleSecondDriveZweak),
+                fill(maleBoring, pop2BnumMaleBoring))
+pop2B = Population(pop2BFemales, pop2BMales)
+```
+
+**pop2C** has 5% driving Z of the strong variety. Here we set the proportions of males with different kinds of Z by assuming Hardy-Weinberg equilibrium:
+
+```{julia}
+pop2CsetPropDrivingZstrong = 0.05
+pop2CSizeFemale = 10_000
+pop2CSizeMale = 10_000
+pop2CFemales = vcat(fill(femaleDriveZstrong, Int(round(pop2CsetPropDrivingZstrong * pop2CSizeFemale))), 
+                fill(femaleBoring, Int(round((1-pop2CsetPropDrivingZstrong) * pop2CSizeMale))))
+pop2CnumMaleTwoDriveZstrong = Int(round(pop2CsetPropDrivingZstrong^2 * pop2CSizeMale))
+pop2CnumMaleFirstDriveZstrong = Int(round(pop2CsetPropDrivingZstrong * (1-pop2CsetPropDrivingZstrong) * pop2CSizeMale))
+pop2CnumMaleSecondDriveZstrong = Int(round((1-pop2CsetPropDrivingZstrong) * pop2CsetPropDrivingZstrong * pop2CSizeMale))
+pop2CnumMaleBoring = Int(round((1-pop2CsetPropDrivingZstrong)^2 * pop2CSizeMale))
+pop2CMales = vcat(fill(maleTwoDriveZstrong, pop2CnumMaleTwoDriveZstrong),
+                fill(maleFirstDriveZstrong, pop2CnumMaleFirstDriveZstrong),
+                fill(maleSecondDriveZstrong, pop2CnumMaleSecondDriveZstrong),
+                fill(maleBoring, pop2CnumMaleBoring))
+pop2C = Population(pop2CFemales, pop2CMales)
 ```
 
 **pop3** has 5% driving autosome (A). We again use HW equilibrium for the initial setup of the frequencies of different individual types:
@@ -306,6 +387,64 @@ pop3Males = vcat(fill(maleTwoDriveA, pop3numMaleTwoDriveA),
                 fill(maleSecondDriveA, pop3numMaleSecondDriveA),
                 fill(maleBoring, pop3numMaleBoring))
 pop3 = Population(pop3Females, pop3Males)
+```
+
+**pop3B** has 5% driving autosome (A) of the weak variety. We again use HW equilibrium for the initial setup of the frequencies of different individual types:
+
+```{julia}
+pop3BsetPropDrivingAweak = 0.05
+pop3BSizeFemale = 10_000
+pop3BSizeMale = 10_000
+
+pop3BnumFemaleTwoDriveAweak = Int(round(pop3BsetPropDrivingAweak^2 * pop3BSizeFemale))
+pop3BnumFemaleFirstDriveAweak = Int(round(pop3BsetPropDrivingAweak * (1-pop3BsetPropDrivingAweak) * pop3BSizeFemale))
+pop3BnumFemaleSecondDriveAweak = Int(round((1-pop3BsetPropDrivingAweak) * pop3BsetPropDrivingAweak * pop3BSizeFemale))
+pop3BnumFemaleBoring = Int(round((1-pop3BsetPropDrivingAweak)^2 * pop3BSizeFemale))
+
+pop3BFemales = vcat(fill(femaleTwoDriveAweak, pop3BnumFemaleTwoDriveAweak),
+                fill(femaleFirstDriveAweak, pop3BnumFemaleFirstDriveAweak),
+                fill(femaleSecondDriveAweak, pop3BnumFemaleSecondDriveAweak),
+                fill(femaleBoring, pop3BnumFemaleBoring))
+
+pop3BnumMaleTwoDriveAweak = Int(round(pop3BsetPropDrivingAweak^2 * pop3BSizeMale))
+pop3BnumMaleFirstDriveAweak = Int(round(pop3BsetPropDrivingAweak * (1-pop3BsetPropDrivingAweak) * pop3BSizeMale))
+pop3BnumMaleSecondDriveAweak = Int(round((1-pop3BsetPropDrivingAweak) * pop3BsetPropDrivingAweak * pop3BSizeMale))
+pop3BnumMaleBoring = Int(round((1-pop3BsetPropDrivingAweak)^2 * pop3BSizeMale))
+
+pop3BMales = vcat(fill(maleTwoDriveAweak, pop3BnumMaleTwoDriveAweak),
+                fill(maleFirstDriveAweak, pop3BnumMaleFirstDriveAweak),
+                fill(maleSecondDriveAweak, pop3BnumMaleSecondDriveAweak),
+                fill(maleBoring, pop3BnumMaleBoring))
+pop3B = Population(pop3BFemales, pop3BMales)
+```
+
+**pop3C** has 5% driving autosome (A) of the strong variety. We again use HW equilibrium for the initial setup of the frequencies of different individual types:
+
+```{julia}
+pop3CsetPropDrivingAstrong = 0.05
+pop3CSizeFemale = 10_000
+pop3CSizeMale = 10_000
+
+pop3CnumFemaleTwoDriveAstrong = Int(round(pop3CsetPropDrivingAstrong^2 * pop3CSizeFemale))
+pop3CnumFemaleFirstDriveAstrong = Int(round(pop3CsetPropDrivingAstrong * (1-pop3CsetPropDrivingAstrong) * pop3CSizeFemale))
+pop3CnumFemaleSecondDriveAstrong = Int(round((1-pop3CsetPropDrivingAstrong) * pop3CsetPropDrivingAstrong * pop3CSizeFemale))
+pop3CnumFemaleBoring = Int(round((1-pop3CsetPropDrivingAstrong)^2 * pop3CSizeFemale))
+
+pop3CFemales = vcat(fill(femaleTwoDriveAstrong, pop3CnumFemaleTwoDriveAstrong),
+                fill(femaleFirstDriveAstrong, pop3CnumFemaleFirstDriveAstrong),
+                fill(femaleSecondDriveAstrong, pop3CnumFemaleSecondDriveAstrong),
+                fill(femaleBoring, pop3CnumFemaleBoring))
+
+pop3CnumMaleTwoDriveAstrong = Int(round(pop3CsetPropDrivingAstrong^2 * pop3CSizeMale))
+pop3CnumMaleFirstDriveAstrong = Int(round(pop3CsetPropDrivingAstrong * (1-pop3CsetPropDrivingAstrong) * pop3CSizeMale))
+pop3CnumMaleSecondDriveAstrong = Int(round((1-pop3CsetPropDrivingAstrong) * pop3CsetPropDrivingAstrong * pop3CSizeMale))
+pop3CnumMaleBoring = Int(round((1-pop3CsetPropDrivingAstrong)^2 * pop3CSizeMale))
+
+pop3CMales = vcat(fill(maleTwoDriveAstrong, pop3CnumMaleTwoDriveAstrong),
+                fill(maleFirstDriveAstrong, pop3CnumMaleFirstDriveAstrong),
+                fill(maleSecondDriveAstrong, pop3CnumMaleSecondDriveAstrong),
+                fill(maleBoring, pop3CnumMaleBoring))
+pop3C = Population(pop3CFemales, pop3CMales)
 ```
 
 **pop4** has 5% driving W and 5% driving Z:
@@ -638,36 +777,76 @@ end
 * suppressing Autosome 1
 
 ```{julia}
-runLength = 100
+runLength = 200
 pop1run = runManyGens(pop1, runLength, driveCost = 0.0)
 pop1plot = plot(0:runLength, pop1run.propFemale, color = :purple, label = "Females", xlabel = "Generations", ylabel = "Proportion", title = "Driving W, Drive Strength = " * string(driveStrength))
-xlims!(0, 100)
+xlims!(0, runLength)
 ylims!(0, 1.05)
 plot!(0:runLength, pop1run.propDrivingW, color = :red, label = "Driving W")
 ```
 
 ```{julia}
-pop1Brun = runManyGens(pop1B, 200, driveCost = 0.0)
+pop1Brun = runManyGens(pop1B, runLength, driveCost = 0.0)
 pop1Bplot = plot(0:200, pop1Brun.propFemale, color = :purple, label = "Females", xlabel = "Generations", ylabel = "Proportion", title = "Driving W, Drive Strength = " * string(driveStrengthWeak))
-xlims!(0, 200)
+xlims!(0, runLength)
 ylims!(0, 1.05)
-plot!(0:200, pop1Brun.propDrivingW, color = :red, label = "Driving W")
+plot!(0:runLength, pop1Brun.propDrivingW, color = :red, label = "Driving W")
+```
+
+```{julia}
+pop1Crun = runManyGens(pop1C, runLength, driveCost = 0.0)
+pop1Cplot = plot(0:200, pop1Crun.propFemale, color = :purple, label = "Females", xlabel = "Generations", ylabel = "Proportion", title = "Driving W, Drive Strength = " * string(driveStrengthStrong))
+xlims!(0, runLength)
+ylims!(0, 1.05)
+plot!(0:runLength, pop1Crun.propDrivingW, color = :red, label = "Driving W")
 ```
 
 ```{julia}
 pop2run = runManyGens(pop2, runLength, driveCost = 0.0)
 pop2plot = plot(0:runLength, pop2run.propFemale, color = :purple, label = "Female", xlabel = "Generations", ylabel = "Proportion", title = "Driving Z, Drive Strength = " * string(driveStrength))
-xlims!(0,100)
+xlims!(0,runLength)
 ylims!(0, 1.05)
 plot!(0:runLength, pop2run.propDrivingZ, color = :blue, label = "Driving Z")
 ```
 
 ```{julia}
+pop2Brun = runManyGens(pop2B, runLength, driveCost = 0.0)
+pop2Bplot = plot(0:runLength, pop2Brun.propFemale, color = :purple, label = "Female", xlabel = "Generations", ylabel = "Proportion", title = "Driving Z, Drive Strength = " * string(driveStrengthWeak))
+xlims!(0,runLength)
+ylims!(0, 1.05)
+plot!(0:runLength, pop2Brun.propDrivingZ, color = :blue, label = "Driving Z")
+```
+
+```{julia}
+pop2Crun = runManyGens(pop2C, runLength, driveCost = 0.0)
+pop2Cplot = plot(0:runLength, pop2Crun.propFemale, color = :purple, label = "Female", xlabel = "Generations", ylabel = "Proportion", title = "Driving Z, Drive Strength = " * string(driveStrengthStrong))
+xlims!(0,runLength)
+ylims!(0, 1.05)
+plot!(0:runLength, pop2Crun.propDrivingZ, color = :blue, label = "Driving Z")
+```
+
+```{julia}
 pop3run = runManyGens(pop3, runLength, driveCost = 0.0)
 pop3plot = plot(0:runLength, pop3run.propFemale, color = :purple, label = "Female", xlabel = "Generations", ylabel = "Proportion", title = "Driving Autosome, Drive Strength = " * string(driveStrength))
-xlims!(0, 100)
+xlims!(0, runLength)
 ylims!(0, 1.05)
 plot!(0:runLength, pop3run.propDrivingA, color = :green, label = "Driving autosome")
+```
+
+```{julia}
+pop3Brun = runManyGens(pop3B, runLength, driveCost = 0.0)
+pop3Bplot = plot(0:runLength, pop3Brun.propFemale, color = :purple, label = "Female", xlabel = "Generations", ylabel = "Proportion", title = "Driving Autosome, Drive Strength = " * string(driveStrengthWeak))
+xlims!(0, runLength)
+ylims!(0, 1.05)
+plot!(0:runLength, pop3Brun.propDrivingA, color = :green, label = "Driving autosome")
+```
+
+```{julia}
+pop3Crun = runManyGens(pop3C, runLength, driveCost = 0.0)
+pop3Cplot = plot(0:runLength, pop3Crun.propFemale, color = :purple, label = "Female", xlabel = "Generations", ylabel = "Proportion", title = "Driving Autosome, Drive Strength = " * string(driveStrengthStrong))
+xlims!(0, runLength)
+ylims!(0, 1.05)
+plot!(0:runLength, pop3Crun.propDrivingA, color = :green, label = "Driving autosome")
 ```
 
 ```{julia}
@@ -679,7 +858,7 @@ plot!(0:runLength, pop4run.propDrivingW, color = :red, label = "Driving W")
 plot!(0:runLength, pop4run.propDrivingZ, color = :blue, label = "Driving Z")
 ```
 
-#### Combine some of above for Fig. 2 of paper
+#### Combine some of above for Fig. 2 of bioRxiv version of paper
 
 ```{julia}
 Fig2A = plot(0:runLength, pop1run.propFemale, color = :purple, linewidth = 2, label = "Females", xlabel = "Generations", ylabel = "Proportion", title = "A. Driving W", titlefontsize = 14, titlelocation = :left)
@@ -711,6 +890,90 @@ To save the figure, run the following (after changing the `false` to `true`):
 ```{julia}
 if false  # set to true to save plot
 	savefig(Figure2, "Figure2.svg")
+end 
+```
+
+#### Combine some of above for Fig. 2 of new version of paper
+
+```{julia}
+
+titleSize = 12
+
+panelA = plot(0:runLength, pop1Brun.propFemale, color = :purple, linewidth = 2, label = "Females", xlabel = "", ylabel = "Proportion", title = "Driving W, 10% advantage", titlefontsize = titleSize, titlelocation = :left)
+xlims!(0, 100)
+ylims!(0, 1.05)
+plot!(0:runLength, pop1Brun.propDrivingW, color = :red, linewidth = 4)
+annotate!(38, 0.2, ("Driving W - mtDNA", :left, 8, :red))
+annotate!(75, 0.43, ("females", :left, 8, :purple))
+
+panelB = plot(0:runLength, pop1run.propFemale, color = :purple, linewidth = 2, label = "Females", xlabel = "", ylabel = "", title = "Driving W, 50% adv.", titlefontsize = titleSize, titlelocation = :left)
+xlims!(0, 100)
+ylims!(0, 1.05)
+plot!(0:runLength, pop1run.propDrivingW, color = :red, linewidth = 4)
+annotate!(33, 0.87, ("Driving W - mtDNA", :left, 8, :red))
+annotate!(70, 0.51, ("females", :left, 8, :purple))
+
+panelC = plot(0:runLength, pop1Crun.propFemale, color = :purple, linewidth = 2, label = "Females", xlabel = "", ylabel = "", title = "Driving W, 200% adv.", titlefontsize = titleSize, titlelocation = :left)
+xlims!(0, 100)
+ylims!(0, 1.05)
+plot!(0:runLength, pop1Crun.propDrivingW, color = :red, linewidth = 4)
+annotate!(18, 0.9, ("Driving W - mtDNA", :left, 8, :red))
+annotate!(65, 0.67, ("females", :left, 8, :purple))
+
+panelD = plot(0:runLength, pop2Brun.propFemale, color = :purple, linewidth = 2, label = "Female", xlabel = "", ylabel = "Proportion", title = "Driving Z, 10% adv.", titlefontsize = titleSize, titlelocation = :left)
+xlims!(0, 100)
+ylims!(0, 1.05)
+plot!(0:runLength, pop2Brun.propDrivingZ, color = :blue, linewidth = 4)
+annotate!(20, 0.2, ("Driving Z", :left, 8, :blue))
+annotate!(75, 0.57, ("females", :left, 8, :purple))
+
+panelE = plot(0:runLength, pop2run.propFemale, color = :purple, linewidth = 2, label = "Female", xlabel = "", ylabel = "", title = "Driving Z, 50% adv.", titlefontsize = titleSize, titlelocation = :left)
+xlims!(0, 100)
+ylims!(0, 1.05)
+plot!(0:runLength, pop2run.propDrivingZ, color = :blue, linewidth = 4)
+annotate!(70, 0.68, ("Driving Z", :left, 8, :blue))
+annotate!(75, 0.32, ("females", :left, 8, :purple))
+
+panelF = plot(0:runLength, pop2Crun.propFemale, color = :purple, linewidth = 2, label = "Female", xlabel = "", ylabel = "", title = "Driving Z, 200% adv.", titlefontsize = titleSize, titlelocation = :left)
+xlims!(0, 100)
+ylims!(0, 1.05)
+plot!(0:runLength, pop2Crun.propDrivingZ, color = :blue, linewidth = 4)
+annotate!(30, 0.67, ("Driving Z", :left, 8, :blue))
+annotate!(75, 0.33, ("females", :left, 8, :purple))
+
+panelG = plot(0:runLength, pop3Brun.propFemale, color = :purple, linewidth = 2, label = "Female", xlabel = "Generations", ylabel = "Proportion", title = "Driv. autosome, 10% adv.", titlefontsize = titleSize, titlelocation = :left)
+xlims!(0, 100)
+ylims!(0, 1.05)
+plot!(0:runLength, pop3Brun.propDrivingA, color = :green, linewidth = 4)
+annotate!(17, 0.23, ("Driving autosome", :left, 8, :green))
+annotate!(75, 0.58, ("females", :left, 8, :purple))
+
+panelH= plot(0:runLength, pop3run.propFemale, color = :purple, linewidth = 2, label = "Female", xlabel = "Generations", ylabel = "", title = "Driv. autosome, 50% adv.", titlefontsize = titleSize, titlelocation = :left)
+xlims!(0, 100)
+ylims!(0, 1.05)
+plot!(0:runLength, pop3run.propDrivingA, color = :green, linewidth = 4)
+annotate!(25, 0.17, ("Driving autosome", :left, 8, :green))
+annotate!(75, 0.42, ("females", :left, 8, :purple))
+
+panelI= plot(0:runLength, pop3Crun.propFemale, color = :purple, linewidth = 2, label = "Female", xlabel = "Generations", ylabel = "", title = "Driv. autos., 200% adv.", titlefontsize = titleSize, titlelocation = :left)
+xlims!(0, 100)
+ylims!(0, 1.05)
+plot!(0:runLength, pop3Crun.propDrivingA, color = :green, linewidth = 4)
+annotate!(23, 0.85, ("Driving autosome", :left, 8, :green))
+annotate!(75, 0.42, ("females", :left, 8, :purple))
+
+Fig2 = plot(panelA, panelB, panelC, 
+				panelD, panelE, panelF,
+				panelG, panelH, panelI,
+				layout=(3,3), legend=false, 
+				size = (850, 650))
+```
+
+To save the figure, run the following (after changing the `false` to `true`):
+
+```{julia}
+if true  # set to true to save plot
+	savefig(Fig2, "Figure2.svg")
 end 
 ```
 
@@ -1046,7 +1309,7 @@ xlims!(0, 400)
 ylims!(0, 1.05)
 plot!(0:400, pop5run.propDrivingW, color = :red, linealpha = 0.75, linewidth = 4, label = "Driving W")
 plot!(0:400, pop5run.propSuppressingA, color = :grey, linealpha = 0.75, linewidth = 4, label = "Autosomal drive suppressor")
-annotate!(25, 0.92, ("Driving W", :left, 8, :red))
+annotate!(25, 0.94, ("Driving W - mtDNA", :left, 8, :red))
 annotate!(84, 0.3, ("Autosomal drive suppressor (partial)", :left, 8, :grey))
 annotate!(310, 0.58, ("females", :left, 8, :purple))
 
@@ -1055,7 +1318,7 @@ xlims!(0, 400)
 ylims!(0, 1.05)
 plot!(0:400, pop6run.propDrivingW, color = :red, linealpha = 0.75, linewidth = 4, label = "Driving W")
 plot!(0:400, pop6run.propSuppressingA, color = :grey, linealpha = 0.75, linewidth = 4, label = "Autosomal drive negator")
-annotate!(25, 0.92, ("Driving W", :left, 8, :red))
+annotate!(25, 0.94, ("Driving W - mtDNA", :left, 8, :red))
 annotate!(55, 0.3, ("Autosomal drive suppressor (complete)", :left, 8, :grey))
 annotate!(310, 0.48, ("females", :left, 8, :purple))
 
