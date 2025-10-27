@@ -1329,7 +1329,7 @@ Figure3 = plot(Fig3A, Fig3B, Fig3C, Fig3D, Fig3E, Fig3F, layout=l, legend=false,
 To save the figure, run the following (after changing the `false` to `true`):
 
 ```{julia}
-if false  # set to true to save plot
+if true  # set to true to save plot
 	savefig(Figure3, "Figure3.svg")
 end 
 ```
